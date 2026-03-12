@@ -46,7 +46,7 @@ class HeavyLightDecompositionTest {
      */
     @Test
     void testUpdateNodeValue() {
-        hld.updateSegmentTree(1, 0, hld.getPositionIndex() - 1, hld.getPosition(4), 100);
+        hld.updateNode(4, 100);
         assertEquals(100, hld.queryMaxInPath(4, 5), "Updated value should be reflected in query");
     }
 
