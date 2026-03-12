@@ -146,6 +146,10 @@ public class HeavyLightDecomposition {
         return result;
     }
 
+    public void updateNode(int node, int value) {
+        updateSegmentTree(1, 0, positionIndex - 1, position[node], value);
+    }
+
     public void initialize(int root, int[] values) {
         dfsSize(root, -1);
         decompose(root, root);
