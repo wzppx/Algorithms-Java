@@ -113,6 +113,10 @@ public class HeavyLightDecomposition {
         segmentTree[node] = Math.max(segmentTree[2 * node], segmentTree[2 * node + 1]);
     }
 
+    public void updateNode(int node, int value) {
+        updateSegmentTree(1, 0, positionIndex - 1, position[node], value);
+    }
+
     public int querySegmentTree(int node, int start, int end, int left, int right) {
         if (left > end || right < start) {
             return Integer.MIN_VALUE;
