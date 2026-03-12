@@ -154,4 +154,14 @@ public class HeavyLightDecomposition {
         }
         buildSegmentTree(1, 0, positionIndex - 1);
     }
+
+    /**
+     * Updates the value of a specific node and reflects the change in the segment tree.
+     *
+     * @param node  the node to update (1-indexed)
+     * @param value the new value for the node
+     */
+    public void updateNode(int node, int value) {
+        updateSegmentTree(1, 0, positionIndex - 1, position[node], value);
+    }
 }
