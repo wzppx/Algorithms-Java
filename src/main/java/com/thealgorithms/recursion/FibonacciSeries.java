@@ -1,33 +1,52 @@
 package com.thealgorithms.recursion;
 
-/**
- * The Fibonacci series is a sequence of numbers where each number is the sum of the two preceding ones,
- * starting with 0 and 1.
- * <p>
- * Example:
- * 0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55 ...
- * </p>
- */
+import com.thealgorithms.recursion.engine.RecursiveConfig;
+import com.thealgorithms.recursion.engine.RecursiveEngine;
+import com.thealgorithms.recursion.engine.RecursiveTask;
+import java.math.BigInteger;
 
-public final class FibonacciSeries {
+@RecursiveConfig(maxDepth = 1000)
+public final class FibonacciSeries implements RecursiveTask<Integer, BigInteger> {
+    public static final FibonacciSeries INSTANCE = new FibonacciSeries();
+
     private FibonacciSeries() {
-        throw new UnsupportedOperationException("Utility class");
     }
 
-    /**
-     * Calculates the nth term in the Fibonacci sequence using recursion.
-     *
-     * @param n the position in the Fibonacci sequence (must be non-negative)
-     * @return the nth Fibonacci number
-     * @throws IllegalArgumentException if n is negative
-     */
     public static int fibonacci(int n) {
+        return RecursiveEngine.execute(INSTANCE, n).intValueExact();
+    }
+
+    @Override
+    public BigInteger execute(Integer n) {
         if (n < 0) {
             throw new IllegalArgumentException("n must be a non-negative integer");
         }
         if (n <= 1) {
-            return n;
+            return BigInteger.valueOf(n);
         }
-        return fibonacci(n - 1) + fibonacci(n - 2);
+        return RecursiveEngine.execute(this, n - 1).add(RecursiveEngine.execute(this, n - 2));
+    }
+
+    @Override
+    public BigInteger executeIterative(Integer n) {
+        if (n < 0) {
+            throw new IllegalArgumentException("n must be a non-negative integer");
+        }
+        if (n <= 1) {
+            return BigInteger.valueOf(n);
+        }
+        BigInteger prev = BigInteger.ZERO;
+        BigInteger current = BigInteger.ONE;
+        for (int i = 2; i <= n; i++) {
+            BigInteger next = prev.add(current);
+            prev = current;
+            current = next;
+        }
+        return current;
+    }
+
+    @Override
+    public int calculateDepth(Integer input) {
+        return input;
     }
 }
